@@ -1,0 +1,175 @@
+openapi: 3.0.0
+info:
+  title: API bd_api_mysql
+  description: API para gestionar locales, empleados y asignaciones de trabajo.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:8000
+paths:
+  /employees:
+    get:
+      summary: Obtener todos los empleados
+      responses:
+        '200':
+          description: Lista de empleados
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+    post:
+      summary: Agregar un nuevo empleado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Empleado añadido correctamente
+
+  /employees/{id}:
+    get:
+      summary: Obtener empleado por ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del empleado
+      responses:
+        '200':
+          description: Datos del empleado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+    put:
+      summary: Modificar un empleado por ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del empleado
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Employee'
+      responses:
+        '200':
+          description: Empleado modificado correctamente
+    delete:
+      summary: Eliminar empleado por ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del empleado
+      responses:
+        '200':
+          description: Empleado eliminado correctamente
+
+  /locals:
+    get:
+      summary: Obtener todos los locales
+      responses:
+        '200':
+          description: Lista de locales
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Local'
+    post:
+      summary: Agregar un nuevo local
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Local'
+      responses:
+        '200':
+          description: Local añadido correctamente
+
+  /locals/{id}:
+    get:
+      summary: Obtener local por ID
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: ID del local
+      responses:
+        '200':
+          description: Datos del local
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Local'
+
+  /assign_employee_to_local:
+    post:
+      summary: Asignar un empleado a un local
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignEmployeeToLocal'
+      responses:
+        '200':
+          description: Empleado asignado correctamente
+
+components:
+  schemas:
+    Employee:
+      type: object
+      properties:
+        name:
+          type: string
+        cargo:
+          type: string
+        correo:
+          type: string
+        edad:
+          type: integer
+      required:
+        - name
+        - cargo
+        - correo
+        - edad
+
+    Local:
+      type: object
+      properties:
+        nombre:
+          type: string
+        direccion:
+          type: string
+      required:
+        - nombre
+        - direccion
+
+    AssignEmployeeToLocal:
+      type: object
+      properties:
+        ID_local:
+          type: integer
+        ID_empleado:
+          type: integer
+      required:
+        - ID_local
+        - ID_empleado
