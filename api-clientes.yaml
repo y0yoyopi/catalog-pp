@@ -1,0 +1,318 @@
+openapi: 3.0.0
+info:
+  title: API Clientes
+  version: 1.0.0
+  description: API para gestionar usuarios y suscripciones
+servers:
+  - url: http://localhost:8000  
+paths:
+  /:
+    get:
+      summary: Verifica que la API esté funcionando
+      operationId: rootEndpoint
+      responses:
+        '200':
+          description: API está funcionando correctamente
+          content:
+            text/plain:
+              schema:
+                type: string
+  /users:
+    get:
+      summary: Obtiene todos los usuarios
+      operationId: getUsers
+      responses:
+        '200':
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID_usuario:
+                      type: integer
+                    nombre:
+                      type: string
+                    apellido:
+                      type: string
+                    correo:
+                      type: string
+                    id_membresia:
+                      type: integer
+
+    post:
+      summary: Crea un nuevo usuario
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                apellido:
+                  type: string
+                correo:
+                  type: string
+                id_membresia:
+                  type: integer
+      responses:
+        '201':
+          description: Usuario creado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID_usuario:
+                    type: integer
+                  nombre:
+                    type: string
+                  apellido:
+                    type: string
+                  correo:
+                    type: string
+                  id_membresia:
+                    type: integer
+
+  /users/{id}:
+    get:
+      summary: Obtiene un usuario por ID
+      operationId: getUserById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID_usuario:
+                    type: integer
+                  nombre:
+                    type: string
+                  apellido:
+                    type: string
+                  correo:
+                    type: string
+                  id_membresia:
+                    type: integer
+        '404':
+          description: Usuario no encontrado
+
+    put:
+      summary: Actualiza un usuario
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                apellido:
+                  type: string
+                correo:
+                  type: string
+                id_membresia:
+                  type: integer
+      responses:
+        '200':
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID_usuario:
+                    type: integer
+                  nombre:
+                    type: string
+                  apellido:
+                    type: string
+                  correo:
+                    type: string
+                  id_membresia:
+                    type: integer
+        '404':
+          description: Usuario no encontrado
+
+    delete:
+      summary: Elimina un usuario
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Usuario eliminado
+        '404':
+          description: Usuario no encontrado
+
+  /subscriptions:
+    get:
+      summary: Obtiene todas las suscripciones
+      operationId: getSubscriptions
+      responses:
+        '200':
+          description: Lista de suscripciones
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ID_membresia:
+                      type: integer
+                    nombre:
+                      type: string
+                    precio_mensual:
+                      type: number
+                    descripcion:
+                      type: string
+
+    post:
+      summary: Crea una nueva suscripción
+      operationId: createSubscription
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                precio_mensual:
+                  type: number
+                descripcion:
+                  type: string
+      responses:
+        '201':
+          description: Suscripción creada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID_membresia:
+                    type: integer
+                  nombre:
+                    type: string
+                  precio_mensual:
+                    type: number
+                  descripcion:
+                    type: string
+
+  /subscriptions/{id}:
+    get:
+      summary: Obtiene una suscripción por ID
+      operationId: getSubscriptionById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la suscripción
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Suscripción encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID_membresia:
+                    type: integer
+                  nombre:
+                    type: string
+                  precio_mensual:
+                    type: number
+                  descripcion:
+                    type: string
+        '404':
+          description: Suscripción no encontrada
+
+    put:
+      summary: Actualiza una suscripción
+      operationId: updateSubscription
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la suscripción
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nombre:
+                  type: string
+                precio_mensual:
+                  type: number
+                descripcion:
+                  type: string
+      responses:
+        '200':
+          description: Suscripción actualizada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ID_membresia:
+                    type: integer
+                  nombre:
+                    type: string
+                  precio_mensual:
+                    type: number
+                  descripcion:
+                    type: string
+        '404':
+          description: Suscripción no encontrada
+
+    delete:
+      summary: Elimina una suscripción
+      operationId: deleteSubscription
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la suscripción
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Suscripción eliminada
+        '404':
+          description: Suscripción no encontrada
